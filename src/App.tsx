@@ -36,6 +36,8 @@ function App() {
       // eslint-disable-next-line no-console
       console.log('[Native Bridge] Location received from iOS:', location);
       setLocation(location);
+      // Change background color when location is received
+      document.body.style.backgroundColor = '#4CAF50'; // Green color
     };
 
     return () => {
@@ -44,6 +46,8 @@ function App() {
       if (window.appBridge) {
         window.appBridge.onLocationReceived = null;
       }
+      // Reset background color on cleanup
+      document.body.style.backgroundColor = '#282c34';
     };
   }, []);
 
