@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-location-app/static/css/main.341de0e4.css",
-    "main.js": "/react-location-app/static/js/main.57a77f44.js",
+    "main.js": "/react-location-app/static/js/main.dc1d418b.js",
     "static/js/453.ecfd8c2b.chunk.js": "/react-location-app/static/js/453.ecfd8c2b.chunk.js",
     "index.html": "/react-location-app/index.html",
     "main.341de0e4.css.map": "/react-location-app/static/css/main.341de0e4.css.map",
-    "main.57a77f44.js.map": "/react-location-app/static/js/main.57a77f44.js.map",
+    "main.dc1d418b.js.map": "/react-location-app/static/js/main.dc1d418b.js.map",
     "453.ecfd8c2b.chunk.js.map": "/react-location-app/static/js/453.ecfd8c2b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.341de0e4.css",
-    "static/js/main.57a77f44.js"
+    "static/js/main.dc1d418b.js"
   ]
 }
