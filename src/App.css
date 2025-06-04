@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.location-info {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.location-info p {
+  margin: 10px 0;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.loading {
+  color: #61dafb;
+  font-size: 1.2rem;
+}
