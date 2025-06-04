@@ -20,6 +20,7 @@ function App() {
   const [location, setLocation] = useState<Location | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log('Setting up appBridge location listener...');
   
     // Wait briefly to ensure native JS injection had a chance to run
@@ -28,22 +29,23 @@ function App() {
         window.appBridge = {} as any;
       }
   
-      (window.appBridge as any).onLocationReceived = (location: Location) => {
+      window.appBridge!.onLocationReceived = (location) => {
         console.log('[Native Bridge] Location received from iOS:', location);
         setLocation(location);
         document.body.style.backgroundColor = '#4CAF50';
       };
-    }, 100); 
+    }, 100); // ⏱️ 100ms is often enough
   
     return () => {
+      // eslint-disable-next-line no-console
       console.log('Cleaning up appBridge location listener');
       if (window.appBridge) {
         window.appBridge.onLocationReceived = null;
       }
+      // Reset background color on cleanup
       document.body.style.backgroundColor = '#282c34';
     };
   }, []);
-  
 
   return (
     <div className="App">
