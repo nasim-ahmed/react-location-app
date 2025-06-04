@@ -13,13 +13,6 @@ declare global {
     appBridge?: {
       onLocationReceived: ((location: Location) => void) | null;
     };
-    // webkit?: {
-    //   messageHandlers?: {
-    //     getLocation?: {
-    //       postMessage: (message: any) => void;
-    //     };
-    //   };
-    // };
   }
 }
 
@@ -27,29 +20,30 @@ function App() {
   const [location, setLocation] = useState<Location | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
     console.log('Setting up appBridge location listener...');
-    if (!window.appBridge) {
-      window.appBridge = { onLocationReceived: null } as Window['appBridge'];
-    }
-    window.appBridge!.onLocationReceived = (location) => {
-      // eslint-disable-next-line no-console
-      console.log('[Native Bridge] Location received from iOS:', location);
-      setLocation(location);
-      // Change background color when location is received
-      document.body.style.backgroundColor = '#4CAF50'; // Green color
-    };
-
+  
+    // Wait briefly to ensure native JS injection had a chance to run
+    setTimeout(() => {
+      if (!window.appBridge) {
+        window.appBridge = {} as any;
+      }
+  
+      (window.appBridge as any).onLocationReceived = (location: Location) => {
+        console.log('[Native Bridge] Location received from iOS:', location);
+        setLocation(location);
+        document.body.style.backgroundColor = '#4CAF50';
+      };
+    }, 100); 
+  
     return () => {
-      // eslint-disable-next-line no-console
       console.log('Cleaning up appBridge location listener');
       if (window.appBridge) {
         window.appBridge.onLocationReceived = null;
       }
-      // Reset background color on cleanup
       document.body.style.backgroundColor = '#282c34';
     };
   }, []);
+  
 
   return (
     <div className="App">
