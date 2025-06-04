@@ -55,6 +55,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Location App</h1>
+        {/* Debug info */}
+        <p style={{ fontSize: '12px', color: '#ccc' }}>
+          Debug: {JSON.stringify(location)}
+        </p>
         {location ? (
           <div className="location-info">
             {location.error ? (
@@ -62,8 +66,8 @@ function App() {
             ) : (
               <div>
                 <p>Your current location:</p>
-                <p>Latitude: {location.latitude?.toFixed(6)}</p>
-                <p>Longitude: {location.longitude?.toFixed(6)}</p>
+                <p>Latitude: {location.latitude}</p>
+                <p>Longitude: {location.longitude}</p>
               </div>
             )}
           </div>
