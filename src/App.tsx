@@ -58,8 +58,8 @@ function App() {
             ) : (
               <div>
                 <p>Your current location:</p>
-                <p>Latitude: {location.latitude.toFixed(6)}</p>
-                <p>Longitude: {location.longitude.toFixed(6)}</p>
+                <p>Latitude: {location.latitude?.toFixed(6)}</p>
+                <p>Longitude: {location.longitude?.toFixed(6)}</p>
               </div>
             )}
           </div>
