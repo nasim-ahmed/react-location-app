@@ -1,51 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-
-interface Location {
-  latitude: number;
-  longitude: number;
-  error?: string;
-}
+import { getAppBridgeFunction } from './utils/appBridge';
+import { BRIDGE_TYPES } from './utils/constants';
+import type { Location } from './utils/appBridge';
 
 // Add TypeScript declarations for the bridge
 declare global {
   interface Window {
+    webkit?: {
+      messageHandlers?: {
+        appBridge?: {
+          postMessage?: (message: any) => void;
+        };
+      };
+    };
     appBridge?: {
-      onLocationReceived: ((location: Location) => void) | null;
+      getCurrentLocation: () => Location;
+    };
+    androidAppBridge?: {
+      getCurrentLocation: () => Location;
     };
   }
 }
 
 function App() {
-  const [location, setLocation] = useState<Location | null>(null);
+  const [userLocation] = useState<Location | null>(() => getAppBridgeFunction({ type: BRIDGE_TYPES.GEO_LOCATION }));
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Setting up appBridge location listener...');
+  console.log('userLocation', userLocation);
+
   
-    // Wait briefly to ensure native JS injection had a chance to run
-    setTimeout(() => {
-      if (!window.appBridge) {
-        window.appBridge = {} as any;
-      }
-  
-      window.appBridge!.onLocationReceived = (location) => {
-        console.log('[Native Bridge] Location received from iOS:', location);
-        setLocation(location);
-        document.body.style.backgroundColor = '#4CAF50';
-      };
-    }, 100); // ⏱️ 100ms is often enough
-  
-    return () => {
-      // eslint-disable-next-line no-console
-      console.log('Cleaning up appBridge location listener');
-      if (window.appBridge) {
-        window.appBridge.onLocationReceived = null;
-      }
-      // Reset background color on cleanup
-      document.body.style.backgroundColor = '#282c34';
-    };
-  }, []);
 
   return (
     <div className="App">
@@ -53,22 +36,18 @@ function App() {
         <h1>Location App</h1>
         {/* Debug info */}
         <p style={{ fontSize: '12px', color: '#ccc' }}>
-          Debug: {JSON.stringify(location)}
+          Debug: {JSON.stringify(userLocation)}
         </p>
-        {location ? (
+        {userLocation ? (
           <div className="location-info">
-            {location.error ? (
-              <p className="error-message">Error: {location.error}</p>
-            ) : (
-              <div>
-                <p>Your current location:</p>
-                <p>Latitude: {location.latitude}</p>
-                <p>Longitude: {location.longitude}</p>
-              </div>
-            )}
+            <div>
+              <p>Your current location:</p>
+              <p>Latitude: {userLocation.lat}</p>
+              <p>Longitude: {userLocation.lng}</p>
+            </div>
           </div>
         ) : (
-          <p className="loading">Waiting for location...</p>
+          <p className="loading">Location not available</p>
         )}
       </header>
     </div>
